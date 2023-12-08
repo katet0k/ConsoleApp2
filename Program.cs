@@ -7,7 +7,6 @@ namespace ConsoleApp2
     {
         static void Main(string[] args)
         {
-            // Створюємо зв'язок із базою даних
             var connectionString = @"Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=FirmaKantstover;Integrated Security=True;Connect Timeout=30;Encrypt=False";
             var connection = new SqlConnection(connectionString);
 
@@ -32,14 +31,12 @@ namespace ConsoleApp2
             Console.WriteLine("8. Ввести дані про канцтовар");
             Console.WriteLine("0. Вихід");
 
-            // Читаємо вибір користувача
             int choice = int.Parse(Console.ReadLine());
             do
             {
                 switch (choice)
                 {
                     case 1:
-                        // Відображення всієї інформації про канцтовари
                         var cmd = new SqlCommand("SELECT * FROM [Товари]", connection);
                         var reader = cmd.ExecuteReader();
                         while (reader.Read())
@@ -49,7 +46,6 @@ namespace ConsoleApp2
                         reader.Close();
                         break;
                     case 2:
-                        // Відображення всіх типів канцтоварів
                         cmd = new SqlCommand("SELECT DISTINCT [Тип] FROM [Товари]", connection);
                         reader = cmd.ExecuteReader();
                         while (reader.Read())
@@ -59,7 +55,6 @@ namespace ConsoleApp2
                         reader.Close();
                         break;
                     case 3:
-                        // Відображення всіх менеджерів з продажу
                         cmd = new SqlCommand("SELECT DISTINCT [Менеджер] FROM [Товари]", connection);
                         reader = cmd.ExecuteReader();
                         while (reader.Read())
@@ -69,7 +64,6 @@ namespace ConsoleApp2
                         reader.Close();
                         break;
                     case 4:
-                        // Показати канцтовари з максимальною кількістю одиниць
                         cmd = new SqlCommand("SELECT * FROM [Товари] ORDER BY [Кількість] DESC", connection);
                         reader = cmd.ExecuteReader();
                         reader.Read();
@@ -78,7 +72,6 @@ namespace ConsoleApp2
                         reader.Close();
                         break;
                     case 5:
-                        // Показати канцтовари з мінімальною кількістю одиниць
                         cmd = new SqlCommand("SELECT * FROM [Товари] ORDER BY [Кількість] ASC", connection);
                         reader = cmd.ExecuteReader();
                         reader.Read();
@@ -87,7 +80,6 @@ namespace ConsoleApp2
                         reader.Close();
                         break;
                     case 6:
-                        // Показати канцтовари з мінімальною собівартістю одиниці
                         cmd = new SqlCommand("SELECT * FROM [Товари] ORDER BY [Собівартість] ASC", connection);
                         reader = cmd.ExecuteReader();
                         reader.Read();
@@ -97,7 +89,6 @@ namespace ConsoleApp2
                         break;
 
                     case 7:
-                        // Показати канцтовари з максимальною собівартістю одиниці
                         cmd = new SqlCommand("SELECT * FROM [Товари] ORDER BY [Собівартість] DESC", connection);
                         reader = cmd.ExecuteReader();
                         reader.Read();
@@ -107,7 +98,6 @@ namespace ConsoleApp2
                         break;
 
                     case 8:
-                        // Ввести дані про канцтовар
                         Console.WriteLine("Введіть назву канцтовару:");
                         string name = Console.ReadLine();
 
@@ -123,7 +113,6 @@ namespace ConsoleApp2
                         Console.WriteLine("Введіть собівартість одиниці канцтовару:");
                         float cost = float.Parse(Console.ReadLine());
 
-                        // Додаємо дані до бази даних
                         cmd = new SqlCommand("INSERT INTO [Товари] ([Назва], [Тип], [Кількість], [Менеджер], [Собівартість]) VALUES (@name, @type, @quantity, @manager, @cost)", connection);
                         cmd.Parameters.AddWithValue("@name", name);
                         cmd.Parameters.AddWithValue("@type", type);
@@ -132,7 +121,6 @@ namespace ConsoleApp2
                         cmd.Parameters.AddWithValue("@cost", cost);
                         cmd.ExecuteNonQuery();
 
-                        // Відображення всієї інформації про канцтовари після внесення змін
                         reader = cmd.ExecuteReader();
                         while (reader.Read())
                         {
